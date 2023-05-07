@@ -30,12 +30,23 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
+
       - name: Build master branch and push
         if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v3
         with:
           context: .
+          file: Dockerfile
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/clash:latest
+
+      - name: Build master branch and push
+        if: github.ref == 'refs/heads/master'
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile.lite
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/clash:lite
